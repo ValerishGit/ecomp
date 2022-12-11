@@ -27,6 +27,20 @@ class ResultsPage extends StatelessWidget {
           const SizedBox(
             height: 20,
           ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              for (var site in _searchController.siteResults)
+                _buildResultItems(
+                  context,
+                  site,
+                )
+            ],
+          ),
+          const SizedBox(
+            height: 20,
+          ),
           Obx(
             () => SectionTitle(
                 title:
@@ -42,35 +56,18 @@ class ResultsPage extends StatelessWidget {
   Widget resultList(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Column(
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              for (var site in _searchController.siteResults)
-                _buildResultItems(
-                  context,
-                  site,
-                )
-            ],
-          ),
-          Obx(
-            () => ListView.builder(
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                return ItemCard(
-                  product:
-                      _searchController.selectedResult.value!.products[index],
-                  src: _searchController.selectedResult.value!.name,
-                );
-              },
-              itemCount:
-                  _searchController.selectedResult.value?.products.length,
-            ),
-          )
-        ],
+      child: Obx(
+        () => ListView.builder(
+          physics: NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            return ItemCard(
+              product: _searchController.selectedResult.value!.products[index],
+              src: _searchController.selectedResult.value!.name,
+            );
+          },
+          itemCount: _searchController.selectedResult.value?.products.length,
+        ),
       ),
     );
   }
