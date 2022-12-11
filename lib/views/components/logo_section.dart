@@ -17,12 +17,11 @@ class LogoSection extends StatelessWidget {
     return Obx(
       () => AnimatedCrossFade(
         duration: const Duration(milliseconds: 200),
-        crossFadeState: _searchController.showLogo.value
+        crossFadeState: _searchController.isSearched.value
             ? CrossFadeState.showFirst
             : CrossFadeState.showSecond,
         secondChild: Container(),
         firstChild: SizedBox(
-          height: _searchController.showLogo.value ? null : 0,
           child: Column(
             children: [
               const SizedBox(

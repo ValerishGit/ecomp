@@ -2,10 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:playground/modals/search_results_modal.dart';
 import 'package:playground/services/api_calls.dart';
+import 'package:playground/utils/const_values.dart';
 
 class SearchController extends GetxController {
   RxBool isLoading = false.obs;
-  RxBool showLogo = true.obs;
+  RxBool isSearched = false.obs;
+  Rx<SiteResult?> selectedResult =
+      SiteResult("name", Product("name", "price", "link", "img", "rating"), [])
+          .obs;
   FocusNode searchFocus = FocusNode();
 
   RxList<SiteResult> siteResults = <SiteResult>[].obs;
@@ -14,22 +18,22 @@ class SearchController extends GetxController {
   Future<void> searchCall(String searchTerm) async {
     List<SiteResult>? res = [];
     isLoading(true);
-    showLogo(false);
+    isSearched(true);
     try {
-      res = await ApiCalls.searchProducts(searchTerm);
-      siteResults(res);
+      //res = await ApiCalls.searchProducts(searchTerm);
+      await Future.delayed(Duration(seconds: 2));
+
+      siteResults(MockData.resultss);
+      selectedResult(MockData.resultss[0]);
     } finally {
       isLoading(false);
     }
   }
 
-  void setShowLogo(value) {
-    showLogo(value);
-  }
-
   void resetView() {
     isLoading(false);
-    showLogo(true);
+    searchController.text = "";
+    isSearched(false);
     siteResults([]);
   }
 }

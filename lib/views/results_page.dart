@@ -1,10 +1,12 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:playground/controllers/search_controller.dart';
+import 'package:playground/modals/search_results_modal.dart';
 import 'package:playground/utils/const_values.dart';
+import 'package:playground/views/components/product_section.dart';
+
+import 'components/product_details.dart';
+import 'components/section_title.dart';
 
 class ResultsPage extends StatelessWidget {
   ResultsPage({super.key});
@@ -12,203 +14,193 @@ class ResultsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Container(
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).requestFocus(FocusNode());
+      },
+      child: SingleChildScrollView(
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text(
-            "Cheapest",
-            style: Theme.of(context).textTheme.headline5!.copyWith(
-                color: Globals.primary_1, fontWeight: FontWeight.bold),
-          ),
-          Text(
-            "The cheapest result from each site",
-            style: Theme.of(context)
-                .textTheme
-                .headline6!
-                .copyWith(color: Colors.white30, fontWeight: FontWeight.bold),
+          ProductSection(
+            headerTitle: "Cheapest",
+            subTitle: "The cheapest result from each site",
           ),
           const SizedBox(
-            height: 10,
+            height: 20,
           ),
-          SizedBox(height: 370, child: cheapestCarousel(context)),
-          Text(
-            "Results",
-            style: Theme.of(context).textTheme.headline5!.copyWith(
-                color: Globals.primary_1, fontWeight: FontWeight.bold),
+          Obx(
+            () => SectionTitle(
+                title:
+                    "${_searchController.selectedResult.value?.name} Results",
+                subtitle: "Top results from each site"),
           ),
-          Text(
-            "All top results categorized by site",
-            style: Theme.of(context)
-                .textTheme
-                .headline6!
-                .copyWith(color: Colors.white30, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(child: resultList(context)),
+          resultList(context),
         ]),
       ),
     );
   }
 
   Widget resultList(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        SizedBox(
-          // you may want to use an aspect ratio here for tablet support
-          child: ListView.builder(
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            // store this controller in a State to save the carousel scroll position
-            itemCount: _searchController.siteResults.length,
-            itemBuilder: (BuildContext context, int itemIndex) {
-              return _buildResultItems(context, itemIndex, 150);
-            },
-          ),
-        )
-      ],
-    );
-  }
-
-  Widget cheapestCarousel(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      mainAxisSize: MainAxisSize.max,
-      children: <Widget>[
-        SizedBox(
-          // you may want to use an aspect ratio here for tablet support
-          height: 340.0,
-          child: PageView.builder(
-            // store this controller in a State to save the carousel scroll position
-            controller: PageController(viewportFraction: 0.7, initialPage: 1),
-            itemCount: _searchController.siteResults.length,
-            itemBuilder: (BuildContext context, int itemIndex) {
-              return _buildCarouselItem(context, itemIndex, 230);
-            },
-          ),
-        )
-      ],
-    );
-  }
-
-  Widget _buildCarouselItem(BuildContext context, int itemIndex, double size) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 9.0),
-      child: Card(
-        elevation: 6,
-        shadowColor: Colors.black,
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(8.0))),
-        child:
-            Column(crossAxisAlignment: CrossAxisAlignment.stretch, // add this
-                children: [
-              ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(8.0),
-                  topRight: Radius.circular(8.0),
-                ),
-                child: Image.network(
-                    _searchController.siteResults[itemIndex].cheap.img,
-                    // width: 300,
-                    height: size,
-                    fit: BoxFit.fill),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              ListTile(
-                trailing: Text(
-                  _searchController.siteResults[itemIndex].cheap.price
-                      .replaceAll('<span class="DEFAULT">', "")
-                      .replaceAll("</span>", ""),
-                  style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                      color: Globals.primary_1,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold),
-                ),
-                subtitle: Text(
-                  _searchController.siteResults[itemIndex].name,
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline6!
-                      .copyWith(color: Globals.primary_1),
-                ),
-                title: Text(
-                    _searchController.siteResults[itemIndex].cheap.shortName(),
-                    style: Theme.of(context).textTheme.headline6!.copyWith(
-                        color: Globals.text_color,
-                        fontWeight: FontWeight.bold)),
-                isThreeLine: false,
-              ),
-            ]),
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              for (var site in _searchController.siteResults)
+                _buildResultItems(
+                  context,
+                  site,
+                )
+            ],
+          ),
+          Obx(
+            () => ListView.builder(
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                return ItemCard(
+                  product:
+                      _searchController.selectedResult.value!.products[index],
+                  src: _searchController.selectedResult.value!.name,
+                );
+              },
+              itemCount:
+                  _searchController.selectedResult.value?.products.length,
+            ),
+          )
+        ],
       ),
     );
   }
 
-  Widget _buildResultItems(BuildContext context, int itemIndex, double size) {
-    return Card(
-      elevation: 6,
-      shadowColor: Colors.black,
-      shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(8.0))),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, // add this
-          children: [
-            ListTile(
-              title: Text(_searchController.siteResults[itemIndex].name,
-                  style: Theme.of(context).textTheme.headline6!.copyWith(
-                      color: Globals.text_color, fontWeight: FontWeight.bold)),
-              isThreeLine: false,
+  Widget _buildResultItems(BuildContext context, SiteResult site) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+      child: Obx(
+        () => InkWell(
+          onTap: () {
+            _searchController.selectedResult(site);
+          },
+          child: Chip(
+              backgroundColor: _searchController.selectedResult.value == site
+                  ? Globals.primary_1
+                  : null,
+              label: Container(
+                  width: 80,
+                  child: Center(
+                      child: Text(
+                    site.name,
+                    style: TextStyle(
+                        color: _searchController.selectedResult.value == site
+                            ? Colors.white
+                            : null),
+                  )))),
+        ),
+      ),
+    );
+  }
+}
+
+class ItemCard extends StatelessWidget {
+  ItemCard({
+    super.key,
+    required this.product,
+    required this.src,
+  });
+
+  final Product product;
+  final String src;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        showModalBottomSheet(
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(12), topRight: Radius.circular(12)),
             ),
-            ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount:
-                    _searchController.siteResults[itemIndex].products.length,
-                itemBuilder: (context, index) {
-                  return Card(
-                    elevation: 6,
-                    shadowColor: Colors.black,
-                    shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(8.0))),
-                    child: ListTile(
-                      trailing: Text(
-                        _searchController
-                            .siteResults[itemIndex].products[index].price
-                            .replaceAll('<span class="DEFAULT">', "")
-                            .replaceAll("</span>", ""),
-                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                            color: Globals.primary_1,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
+            context: context,
+            builder: (context) => ProductDetails(product: product, src: src));
+      },
+      child: Card(
+        elevation: 2,
+        shadowColor: Colors.black,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(8.0))),
+        child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ClipRRect(
+              borderRadius: const BorderRadius.all(
+                Radius.circular(8.0),
+              ),
+              child: Image.network(product.img,
+                  width: 130, height: 130, fit: BoxFit.cover),
+            ),
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(src,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium!
+                                  .copyWith(color: Globals.primary_1)),
+                          Row(
+                            children: [
+                              const Icon(
+                                Icons.star,
+                                size: 15,
+                              ),
+                              Text(product.rating,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .labelLarge!
+                                      .copyWith(fontWeight: FontWeight.normal)),
+                            ],
+                          ),
+                        ],
                       ),
-                      leading: ClipRRect(
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(8.0),
-                          topRight: Radius.circular(8.0),
-                        ),
-                        child: Image.network(
-                            _searchController
-                                .siteResults[itemIndex].products[index].img,
-                            // width: 300,
-                            height: 50,
-                            width: 50,
-                            fit: BoxFit.fill),
+                      SizedBox(
+                        width: 200,
+                        child: Text(product.name,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleSmall!
+                                .copyWith(
+                                    color: Globals.text_color,
+                                    fontWeight: FontWeight.w700)),
                       ),
-                      title: Text(
-                          _searchController
-                              .siteResults[itemIndex].products[index]
-                              .shortName(),
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline6!
-                              .copyWith(
-                                  color: Globals.text_color,
-                                  fontWeight: FontWeight.bold)),
-                      isThreeLine: false,
-                    ),
-                  );
-                })
-          ]),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Text(product.price,
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                          color: Globals.primary_1,
+                          fontWeight: FontWeight.bold)),
+                ],
+              ),
+            ),
+          )
+        ]),
+      ),
     );
   }
 }
