@@ -46,7 +46,6 @@ class Product {
       this.numOfReviews);
 
   String shortName() {
-    print(name);
     if (name.length >= 30) {
       return name.substring(0, 29);
     } else {

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "117021162459",
+    "project_id": "oneshop-aec38",
+    "storage_bucket": "oneshop-aec38.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:117021162459:android:3a87694cae3c50018485fe",
+        "android_client_info": {
+          "package_name": "com.example.playground"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "117021162459-q186p61a0nupdttj1glljokp27rj5p4k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8qaBvEXcF7RzIrMvmUIEwcmwIGs76YsA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "117021162459-q186p61a0nupdttj1glljokp27rj5p4k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

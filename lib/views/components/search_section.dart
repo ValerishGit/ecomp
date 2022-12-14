@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:playground/controllers/auth_controller.dart';
 
 import '../../controllers/search_controller.dart';
 import '../../utils/const_values.dart';
@@ -10,6 +11,7 @@ class SearchSection extends StatelessWidget {
   }) : super(key: key);
 
   final SearchController _searchController = Get.find();
+  final AuthController _authController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -45,9 +47,14 @@ class SearchSection extends StatelessWidget {
                 onSubmitted: (val) {
                   _searchController.searchCall(val);
                 },
-                decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(vertical: 10),
-                    prefixIcon: Icon(Icons.search),
+                decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.symmetric(vertical: 10),
+                    prefixIcon: const Icon(Icons.search),
+                    suffixIcon: GestureDetector(
+                        onTap: () {
+                          _searchController.searchController.clear();
+                        },
+                        child: const Icon(Icons.clear)),
                     hintText: "Search for a product"),
                 controller: _searchController.searchController,
                 style: const TextStyle(color: Colors.black),
@@ -65,6 +72,15 @@ class SearchSection extends StatelessWidget {
               color: Globals.primary_1,
             ),
           ),
+          const SizedBox(width: 20),
+          GestureDetector(
+              onTap: () async {
+                await _authController.logOutUser();
+              },
+              child: Icon(
+                Icons.logout_sharp,
+                color: Globals.primary_1,
+              ))
         ],
       ),
     );

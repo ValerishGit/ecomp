@@ -1,18 +1,20 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:playground/modals/search_results_modal.dart';
 
 class Globals {
-  static Color primary_1 = Color.fromARGB(255, 86, 131, 220);
+  static Color primary_1 = const Color.fromARGB(255, 86, 131, 220);
   static Color primary_2 = const Color(0xFF7F5A83);
   static Color text_color = Colors.black;
 
   static ThemeData themeData = ThemeData.light().copyWith(
-      textTheme: GoogleFonts.ptSansTextTheme(),
+      textTheme: GoogleFonts.robotoTextTheme(),
       primaryColor: primary_1,
       inputDecorationTheme: inputDecorationTheme,
       textButtonTheme: buttonTheme,
-      colorScheme: ColorScheme.light().copyWith(primary: primary_1));
+      colorScheme: const ColorScheme.light().copyWith(primary: primary_1));
 
   static InputDecorationTheme inputDecorationTheme =
       const InputDecorationTheme().copyWith(
@@ -36,7 +38,7 @@ class Globals {
 
   static TextButtonThemeData buttonTheme = TextButtonThemeData(
       style: ButtonStyle(
-          minimumSize: MaterialStateProperty.all<Size>(Size(100, 40)),
+          minimumSize: MaterialStateProperty.all<Size>(const Size(100, 40)),
           shape:
               MaterialStateProperty.all<OutlinedBorder>(const StadiumBorder()),
           foregroundColor: MaterialStateProperty.all<Color>(text_color),
@@ -76,9 +78,9 @@ class MockData {
       "");
 
   static List<Product> results() {
-    List<Product> _tmp = [];
+    List<Product> tmp = [];
     for (var i = 0; i < 10; i++) {
-      _tmp.add(Product(
+      tmp.add(Product(
           "Some random product from the web api bla bla $i",
           "\$134",
           'https://api.lorem.space/image/watch?w=400&h=400&hash=3c2wcvxh$i',
@@ -86,7 +88,7 @@ class MockData {
           "4.5",
           ""));
     }
-    return _tmp;
+    return tmp;
   }
 
   static List<SiteResult> resultss = [

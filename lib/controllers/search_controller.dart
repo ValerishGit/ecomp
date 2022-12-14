@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:playground/modals/search_results_modal.dart';
-import 'package:playground/services/api_calls.dart';
 import 'package:playground/utils/const_values.dart';
 
 class SearchController extends GetxController {
@@ -15,14 +14,14 @@ class SearchController extends GetxController {
   TextEditingController searchController = TextEditingController();
 
   Future<void> searchCall(String searchTerm) async {
-    List<SiteResult>? res = [];
     isLoading(true);
     isSearched(true);
     try {
-      res = await ApiCalls.searchProducts(searchTerm);
+      //res = await ApiCalls.searchProducts(searchTerm);
+      await Future.delayed(const Duration(seconds: 2));
 
-      siteResults(res);
-      selectedResult(res![0]);
+      siteResults(MockData.resultss);
+      selectedResult(MockData.resultss[0]);
     } finally {
       isLoading(false);
     }

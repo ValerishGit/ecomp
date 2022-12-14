@@ -24,14 +24,14 @@ class ProductSection extends StatelessWidget {
           title: headerTitle,
           subtitle: subTitle,
         ),
-        ItemList(results: _searchController.siteResults.value),
+        ItemList(results: _searchController.siteResults),
       ],
     );
   }
 }
 
 class ItemList extends StatelessWidget {
-  ItemList({super.key, required this.results});
+  const ItemList({super.key, required this.results});
   final List<SiteResult> results;
 
   @override

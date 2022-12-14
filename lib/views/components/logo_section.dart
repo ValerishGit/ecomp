@@ -29,12 +29,13 @@ class LogoSection extends StatelessWidget {
               ),
               Text(
                 "ECOMP",
-                style: theme.textTheme.headline2!.copyWith(
+                style: theme.textTheme.displayMedium!.copyWith(
                     fontWeight: FontWeight.w900, color: Globals.primary_1),
               ),
               Text(
                 "Find the cheapest product across multiple sites",
-                style: theme.textTheme.headline6!.copyWith(color: Colors.white),
+                style:
+                    theme.textTheme.titleLarge!.copyWith(color: Colors.white),
               ),
             ],
           ),

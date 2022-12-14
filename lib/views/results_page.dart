@@ -4,7 +4,6 @@ import 'package:playground/controllers/search_controller.dart';
 import 'package:playground/modals/search_results_modal.dart';
 import 'package:playground/utils/const_values.dart';
 import 'package:playground/views/components/product_section.dart';
-
 import 'components/product_details.dart';
 import 'components/section_title.dart';
 
@@ -58,7 +57,7 @@ class ResultsPage extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Obx(
         () => ListView.builder(
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           itemBuilder: (context, index) {
             return ItemCard(
@@ -84,7 +83,7 @@ class ResultsPage extends StatelessWidget {
               backgroundColor: _searchController.selectedResult.value == site
                   ? Globals.primary_1
                   : null,
-              label: Container(
+              label: SizedBox(
                   width: 80,
                   child: Center(
                       child: Text(
@@ -101,7 +100,7 @@ class ResultsPage extends StatelessWidget {
 }
 
 class ItemCard extends StatelessWidget {
-  ItemCard({
+  const ItemCard({
     super.key,
     required this.product,
     required this.src,
