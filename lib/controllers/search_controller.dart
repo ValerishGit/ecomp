@@ -7,9 +7,8 @@ import 'package:playground/utils/const_values.dart';
 class SearchController extends GetxController {
   RxBool isLoading = false.obs;
   RxBool isSearched = false.obs;
-  Rx<SiteResult?> selectedResult =
-      SiteResult("name", Product("name", "price", "link", "img", "rating"), [])
-          .obs;
+  Rx<SiteResult?> selectedResult = SiteResult(
+      "name", Product("name", "price", "link", "img", "rating", ""), []).obs;
   FocusNode searchFocus = FocusNode();
 
   RxList<SiteResult> siteResults = <SiteResult>[].obs;
@@ -20,11 +19,10 @@ class SearchController extends GetxController {
     isLoading(true);
     isSearched(true);
     try {
-      //res = await ApiCalls.searchProducts(searchTerm);
-      await Future.delayed(Duration(seconds: 2));
+      res = await ApiCalls.searchProducts(searchTerm);
 
-      siteResults(MockData.resultss);
-      selectedResult(MockData.resultss[0]);
+      siteResults(res);
+      selectedResult(res![0]);
     } finally {
       isLoading(false);
     }

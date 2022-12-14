@@ -50,7 +50,7 @@ class SearchSection extends StatelessWidget {
                     prefixIcon: Icon(Icons.search),
                     hintText: "Search for a product"),
                 controller: _searchController.searchController,
-                style: const TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.black),
               ),
             ),
           ),

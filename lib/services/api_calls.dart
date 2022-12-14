@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:playground/modals/search_results_modal.dart';
 
-const DEV_URL = "http://10.0.2.2:3001/compare?search=";
+const DEV_URL = "http://localhost:3001/compare?search=";
 
 class ApiCalls {
   static Future<List<SiteResult>?> searchProducts(String searchTerm) async {

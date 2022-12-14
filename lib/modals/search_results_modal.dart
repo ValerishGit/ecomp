@@ -40,8 +40,10 @@ class Product {
   final String link;
   final String img;
   final String rating;
+  final String numOfReviews;
 
-  Product(this.name, this.price, this.link, this.img, this.rating);
+  Product(this.name, this.price, this.link, this.img, this.rating,
+      this.numOfReviews);
 
   String shortName() {
     print(name);
@@ -59,17 +61,18 @@ class Product {
       'link': link,
       'img': img,
       'rating': rating,
+      'numOfReviews': numOfReviews
     };
   }
 
   factory Product.fromMap(Map<String, dynamic> map) {
     return Product(
-      map['name'] as String,
-      map['price'] as String,
-      map['link'] as String,
-      map['img'] as String,
-      map['rating'] as String,
-    );
+        map['name'] as String,
+        map['price'] as String,
+        map['link'] as String,
+        map['img'] as String,
+        map['rating'] as String,
+        map['numOfReviews'] as String);
   }
 
   String toJson() => json.encode(toMap());

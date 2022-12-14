@@ -58,19 +58,22 @@ class MockData {
       "\$100",
       '',
       "https://api.lorem.space/image/watch?w=400&h=400&hash=7cq2y9cb",
-      "4.5");
+      "4.5",
+      "");
   static Product aliCheap = Product(
       "Some product With a very long name that fits everywhere no matter how long the name is 1",
       "\$54",
       '',
       "https://api.lorem.space/image/watch?w=400&h=400&hash=1ekfvz8c",
-      "5.0");
+      "5.0",
+      "");
   static Product ebayCheap = Product(
       "Some product With a very long name that fits everywhere no matter how long the name is 2",
       "\$84",
       '',
       "https://api.lorem.space/image/watch?w=400&h=400&hash=3c2wcvxh",
-      "2.5");
+      "2.5",
+      "");
 
   static List<Product> results() {
     List<Product> _tmp = [];
@@ -80,7 +83,8 @@ class MockData {
           "\$134",
           'https://api.lorem.space/image/watch?w=400&h=400&hash=3c2wcvxh$i',
           'https://api.lorem.space/image/watch?w=400&h=400&hash=3c2wcvxh$i',
-          "4.5"));
+          "4.5",
+          ""));
     }
     return _tmp;
   }

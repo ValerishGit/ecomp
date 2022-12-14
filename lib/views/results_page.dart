@@ -167,6 +167,11 @@ class ItemCard extends StatelessWidget {
                                       .textTheme
                                       .labelLarge!
                                       .copyWith(fontWeight: FontWeight.normal)),
+                              Text("(${product.numOfReviews})",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .labelLarge!
+                                      .copyWith(fontWeight: FontWeight.normal)),
                             ],
                           ),
                         ],
