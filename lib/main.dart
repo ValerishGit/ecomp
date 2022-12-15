@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:playground/controllers/auth_controller.dart';
 import 'package:playground/utils/const_values.dart';
 import 'package:playground/views/auth/login_screen.dart';
+import 'package:playground/views/components/onboarding_screen.dart';
 import 'package:playground/views/home_screen.dart';
 
 import 'controllers/search_controller.dart';
@@ -28,9 +29,11 @@ class MyApp extends StatelessWidget {
       title: 'Playground',
       debugShowCheckedModeBanner: false,
       theme: Globals.themeData,
-      home: _authController.activeUser.value.token != ""
+      home:
+          OnBoardingScreen() /* _authController.activeUser.value.token != ""
           ? HomeScreen()
-          : LoginScreen(),
+          : LoginScreen(), */
+      ,
     );
   }
 }

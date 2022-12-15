@@ -20,7 +20,7 @@ class AuthController extends GetxController {
             lastLogin: DateTime.now(),
             token: await user.getIdToken()));
         FirebaseService.updateLastLogin();
-        Get.off(() => HomeScreen());
+        // Get.off(() => HomeScreen());
       } else {
         activeUser(UserClass());
       }

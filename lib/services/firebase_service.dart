@@ -59,6 +59,34 @@ class FirebaseService {
     }
   }
 
+  static insertToSearch(String searchTerm) async {
+    final User? currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser != null) {
+      await FirebaseFirestore.instance
+          .collection('usageData')
+          .doc("allSearches")
+          .update({
+        "searches": FieldValue.arrayUnion([
+          {"term": searchTerm, "user": currentUser.uid}
+        ])
+      });
+    }
+  }
+
+  static addFeedback(String feedBack) async {
+    final User? currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser != null) {
+      await FirebaseFirestore.instance
+          .collection('usageData')
+          .doc("feedback")
+          .update({
+        "feedback": FieldValue.arrayUnion([
+          {"text": feedBack, "user": currentUser.uid, "date": DateTime.now()}
+        ])
+      });
+    }
+  }
+
   static Future<UserCredential?> loginWithCred(
       String email, String password) async {
     try {
